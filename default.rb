@@ -19,3 +19,24 @@ get "/show_status" do
     "No such task!"
   end
 end
+
+get "/run_job" do 
+  task_id = params[:id]
+  if !Dir.exists? "../tasks/#{task_id}" || !File.exists?(File.join "../tasks/#{task_id}", "plan.sh")
+    @msg = "ID invalid"
+    @last_mod = "N/A"
+    erb :status_message
+  else
+    dir_loc="../tasks/#{task_id}"
+
+    pid=spawn("../tasks/#{task_id}/plan.sh")
+    @msg = "Started process #{pid}"
+
+    f=File.open("#{dir_loc}/_status.txt", 'a')
+    f.write(@msg)
+    f.close
+    
+    redirect to("/show_status")
+  end
+end
+

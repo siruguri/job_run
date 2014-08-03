@@ -1,0 +1,5 @@
+gem 'httpclient'
+gem 'nokogiri'
+gem 'rack'
+gem 'sinatra'
+gem 'sinatra-contrib'
